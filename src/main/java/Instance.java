@@ -1,9 +1,31 @@
-import java.util.ArrayList;
-
 public class Instance {
-    private ArrayList<Task> listOfTask;
+    private Task[] tasks;
 
     public Instance(int size){
-        listOfTask = new ArrayList<Task>(size);
+        tasks = new Task[size];
+    }
+
+    public void addLast(Task newTask){
+        for (int i = 0; i< tasks.length; ++i){
+            if (isTaskExist(tasks[i])){
+                tasks[i] = newTask;
+            }
+        }
+    }
+
+    public int getDurationSum() {
+        int sum = 0;
+        for (Task task : tasks) {
+            if (isTaskExist(task)) {
+                sum += task.getDuration();
+            }else {
+                return -1;
+            }
+        }
+        return sum;
+    }
+
+    private boolean isTaskExist(Task task){
+        return task != null;
     }
 }
