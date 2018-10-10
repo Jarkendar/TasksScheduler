@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Instance {
     private Task[] tasks;
 
@@ -7,8 +9,9 @@ public class Instance {
 
     public void addLast(Task newTask){
         for (int i = 0; i< tasks.length; ++i){
-            if (isTaskExist(tasks[i])){
+            if (!isTaskExist(tasks[i])){
                 tasks[i] = newTask;
+                break;
             }
         }
     }
@@ -27,5 +30,12 @@ public class Instance {
 
     private boolean isTaskExist(Task task){
         return task != null;
+    }
+
+    @Override
+    public String toString() {
+        return "Instance{" +
+                "tasks=" + Arrays.toString(tasks) +
+                '}';
     }
 }
