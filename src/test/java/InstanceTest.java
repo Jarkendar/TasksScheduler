@@ -81,4 +81,21 @@ class InstanceTest {
         assertTrue(correctInstance.isCorrect());
         assertEquals( 0 + 8, correctInstance.calcCost(0.5));
     }
+
+    @Test
+    void swapTasks(){
+        Instance instance = new Instance(2);
+        Task task1 = new Task(1, 2, 3);
+        Task task2 = new Task(2, 3, 4);
+        instance.addLast(task1);
+        instance.addLast(task2);
+        assertTrue(instance.getTasks()[0] == task1 && instance.getTasks()[1] == task2);
+        instance.swapTasks(0,2);
+        assertTrue(instance.getTasks()[0] == task1 && instance.getTasks()[1] == task2);
+        instance.swapTasks(-1,1);
+        assertTrue(instance.getTasks()[0] == task1 && instance.getTasks()[1] == task2);
+        instance.swapTasks(0,1);
+        assertTrue(instance.getTasks()[0] == task2 && instance.getTasks()[1] == task1);
+
+    }
 }

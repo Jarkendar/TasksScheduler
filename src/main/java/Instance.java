@@ -57,6 +57,14 @@ public class Instance {
         return multiplier*(Math.abs(boundary-timeEnd));
     }
 
+    public void swapTasks(int index1, int index2){
+        if ((index1 >= 0 && index1 < tasks.length) && (index2 >= 0 && index2 < tasks.length)) {
+            Task tmp = tasks[index1];
+            tasks[index1] = tasks[index2];
+            tasks[index2] = tmp;
+        }
+    }
+
     public Instance clone() {
         Instance cloneInstance = new Instance(this.tasks.length);
         for (Task task : this.tasks) {
