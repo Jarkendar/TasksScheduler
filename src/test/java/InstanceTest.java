@@ -32,11 +32,11 @@ class InstanceTest {
         Task task1 = new Task(1, 2, 3);
         Task task2 = new Task(2, 3, 4);
         instance.addLast(task1);
-        assertFalse(instance.isInstanceCorrect());
+        assertFalse(instance.isCorrect());
         instance.addLast(task2);
-        assertFalse(instance.isInstanceCorrect());
+        assertFalse(instance.isCorrect());
         instance.getTasks()[1].setTimeStart(instance.getTasks()[1].getTimeEnd());
-        assertTrue(instance.isInstanceCorrect());
+        assertTrue(instance.isCorrect());
     }
 
     @Test
@@ -68,17 +68,17 @@ class InstanceTest {
     }
 
     @Test
-    void calcInstanceCost() {
+    void calcCost() {
         Instance instance = new Instance(2);
         Task task1 = new Task(1, 2, 3);
         Task task2 = new Task(2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
-        assertEquals(4 + 3, instance.calcInstanceCost(1.0));
-        assertEquals(0 + 4, instance.calcInstanceCost(0.5));
-        assertEquals(3 + 8, instance.calcInstanceCost(0.0));
+        assertEquals(4 + 3, instance.calcCost(1.0));
+        assertEquals(0 + 4, instance.calcCost(0.5));
+        assertEquals(3 + 8, instance.calcCost(0.0));
         Instance correctInstance = new SimpleScheduler(instance).scheduleTask();
-        assertTrue(correctInstance.isInstanceCorrect());
-        assertEquals( 0 + 8, correctInstance.calcInstanceCost(0.5));
+        assertTrue(correctInstance.isCorrect());
+        assertEquals( 0 + 8, correctInstance.calcCost(0.5));
     }
 }

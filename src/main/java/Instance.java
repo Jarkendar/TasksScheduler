@@ -28,7 +28,7 @@ public class Instance {
         return sum;
     }
 
-    public boolean isInstanceCorrect() {
+    public boolean isCorrect() {
         for (int i = 1; i < tasks.length; ++i) {
             if (tasks[i] == null || tasks[i - 1] == null) {
                 return false;
@@ -40,7 +40,7 @@ public class Instance {
         return true;
     }
 
-    public int calcInstanceCost(double restrictMultiplier) {
+    public int calcCost(double restrictMultiplier) {
         int fullCost = 0;
         int boundary = (int) (getDurationSum() * restrictMultiplier);
         for (int i = 0;  i < tasks.length; ++i){
