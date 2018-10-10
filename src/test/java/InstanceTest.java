@@ -18,12 +18,12 @@ class InstanceTest {
     @Test
     void getDurationSum() {
         Instance instance = new Instance(2);
-        assertEquals(instance.getDurationSum(), -1);
+        assertEquals(-1, instance.getDurationSum());
         Task task1 = new Task(1, 2, 3);
         Task task2 = new Task(2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
-        assertEquals(instance.getDurationSum(), 3);
+        assertEquals(3, instance.getDurationSum());
     }
 
     @Test
@@ -40,15 +40,15 @@ class InstanceTest {
     }
 
     @Test
-    void cloneIsIdentity(){
+    void cloneIsIdentity() {
         Instance instance = new Instance(2);
         Task task1 = new Task(1, 2, 3);
         Task task2 = new Task(2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
         Instance cloneInstance = instance.clone();
-        assertEquals(cloneInstance.getTasks().length, 2);
-        for (int i = 0; i<instance.getTasks().length; ++i){
+        assertEquals(2, cloneInstance.getTasks().length);
+        for (int i = 0; i < instance.getTasks().length; ++i) {
             assertEquals(instance.getTasks()[i].getDuration(), cloneInstance.getTasks()[i].getDuration());
             assertEquals(instance.getTasks()[i].getTooEarlyMultiplier(), cloneInstance.getTasks()[i].getTooEarlyMultiplier());
             assertEquals(instance.getTasks()[i].getTooLateMultiplier(), cloneInstance.getTasks()[i].getTooLateMultiplier());
@@ -56,7 +56,7 @@ class InstanceTest {
     }
 
     @Test
-    void getTaskOnIndex(){
+    void getTaskOnIndex() {
         Instance instance = new Instance(2);
         Task task1 = new Task(1, 2, 3);
         Task task2 = new Task(2, 3, 4);
@@ -65,5 +65,20 @@ class InstanceTest {
         assertNull(instance.getTaskOnIndex(-1));
         assertNull(instance.getTaskOnIndex(2));
         assertEquals(instance.getTaskOnIndex(1), task2);
+    }
+
+    @Test
+    void calcInstanceCost() {
+        Instance instance = new Instance(2);
+        Task task1 = new Task(1, 2, 3);
+        Task task2 = new Task(2, 3, 4);
+        instance.addLast(task1);
+        instance.addLast(task2);
+        assertEquals(4 + 3, instance.calcInstanceCost(1.0));
+        assertEquals(0 + 4, instance.calcInstanceCost(0.5));
+        assertEquals(3 + 8, instance.calcInstanceCost(0.0));
+        Instance correctInstance = new SimpleScheduler(instance).scheduleTask();
+        assertTrue(correctInstance.isInstanceCorrect());
+        assertEquals( 0 + 8, correctInstance.calcInstanceCost(0.5));
     }
 }

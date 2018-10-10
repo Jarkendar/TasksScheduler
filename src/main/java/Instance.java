@@ -3,13 +3,13 @@ import java.util.Arrays;
 public class Instance {
     private Task[] tasks;
 
-    public Instance(int size){
+    public Instance(int size) {
         tasks = new Task[size];
     }
 
-    public void addLast(Task newTask){
-        for (int i = 0; i< tasks.length; ++i){
-            if (!isTaskExist(tasks[i])){
+    public void addLast(Task newTask) {
+        for (int i = 0; i < tasks.length; ++i) {
+            if (!isTaskExist(tasks[i])) {
                 tasks[i] = newTask;
                 break;
             }
@@ -21,34 +21,51 @@ public class Instance {
         for (Task task : tasks) {
             if (isTaskExist(task)) {
                 sum += task.getDuration();
-            }else {
+            } else {
                 return -1;
             }
         }
         return sum;
     }
 
-    public boolean isInstanceCorrect(){
-        for (int i = 1; i<tasks.length; ++i){
-            if (tasks[i] == null || tasks[i-1] == null){
+    public boolean isInstanceCorrect() {
+        for (int i = 1; i < tasks.length; ++i) {
+            if (tasks[i] == null || tasks[i - 1] == null) {
                 return false;
             }
-            if (tasks[i-1].getTimeEnd() > tasks[i].getTimeStart()){
+            if (tasks[i - 1].getTimeEnd() > tasks[i].getTimeStart()) {
                 return false;
             }
         }
         return true;
     }
 
-    public Instance clone(){
+    public int calcInstanceCost(double restrictMultiplier) {
+        int fullCost = 0;
+        int boundary = (int) (getDurationSum() * restrictMultiplier);
+        for (int i = 0;  i < tasks.length; ++i){
+            if (tasks[i].getTimeEnd() < boundary){
+                fullCost += calcPartCost(boundary, tasks[i].getTooEarlyMultiplier(), tasks[i].getTimeEnd());
+            }else {
+                fullCost += calcPartCost(boundary, tasks[i].getTooLateMultiplier(), tasks[i].getTimeEnd());
+            }
+        }
+        return fullCost;
+    }
+
+    private int calcPartCost(int boundary, int multiplier, int timeEnd){
+        return multiplier*(Math.abs(boundary-timeEnd));
+    }
+
+    public Instance clone() {
         Instance cloneInstance = new Instance(this.tasks.length);
-        for (Task task : this.tasks){
+        for (Task task : this.tasks) {
             cloneInstance.addLast(task.clone());
         }
         return cloneInstance;
     }
 
-    private boolean isTaskExist(Task task){
+    private boolean isTaskExist(Task task) {
         return task != null;
     }
 
@@ -56,14 +73,14 @@ public class Instance {
         return tasks;
     }
 
-    public Task getTaskOnIndex(int index){
-        if (index >= tasks.length || index < 0){
+    public Task getTaskOnIndex(int index) {
+        if (index >= tasks.length || index < 0) {
             return null;
         }
         return tasks[index];
     }
 
-    public int getSizeInstance(){
+    public int getSizeInstance() {
         return tasks.length;
     }
 
