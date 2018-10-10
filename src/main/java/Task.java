@@ -34,6 +34,10 @@ public class Task {
         return timeStart + duration;
     }
 
+    public Task clone(){
+        return new Task(this.duration, this.tooEarlyMultiplier, this.tooLateMultiplier);
+    }
+
     @Override
     public String toString() {
         return "Task{" + duration +

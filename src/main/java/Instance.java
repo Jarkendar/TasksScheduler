@@ -40,6 +40,14 @@ public class Instance {
         return true;
     }
 
+    public Instance clone(){
+        Instance cloneInstance = new Instance(this.tasks.length);
+        for (Task task : this.tasks){
+            cloneInstance.addLast(task.clone());
+        }
+        return cloneInstance;
+    }
+
     private boolean isTaskExist(Task task){
         return task != null;
     }
