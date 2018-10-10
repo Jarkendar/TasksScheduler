@@ -32,6 +32,7 @@ class InstanceTest {
         Task task1 = new Task(1, 2, 3);
         Task task2 = new Task(2, 3, 4);
         instance.addLast(task1);
+        assertFalse(instance.isInstanceCorrect());
         instance.addLast(task2);
         assertFalse(instance.isInstanceCorrect());
         instance.getTasks()[1].setTimeStart(instance.getTasks()[1].getTimeEnd());
