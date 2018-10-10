@@ -56,6 +56,17 @@ public class Instance {
         return tasks;
     }
 
+    public Task getTaskOnIndex(int index){
+        if (index >= tasks.length || index < 0){
+            return null;
+        }
+        return tasks[index];
+    }
+
+    public int getSizeInstance(){
+        return tasks.length;
+    }
+
     @Override
     public String toString() {
         return "Instance{" +

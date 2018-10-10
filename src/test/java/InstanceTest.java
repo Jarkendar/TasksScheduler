@@ -53,4 +53,16 @@ class InstanceTest {
             assertEquals(instance.getTasks()[i].getTooLateMultiplier(), cloneInstance.getTasks()[i].getTooLateMultiplier());
         }
     }
+
+    @Test
+    void getTaskOnIndex(){
+        Instance instance = new Instance(2);
+        Task task1 = new Task(1, 2, 3);
+        Task task2 = new Task(2, 3, 4);
+        instance.addLast(task1);
+        instance.addLast(task2);
+        assertNull(instance.getTaskOnIndex(-1));
+        assertNull(instance.getTaskOnIndex(2));
+        assertEquals(instance.getTaskOnIndex(1), task2);
+    }
 }
