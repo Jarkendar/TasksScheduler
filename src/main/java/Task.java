@@ -33,4 +33,14 @@ public class Task {
     public int getTimeEnd() {
         return timeStart + duration;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" + duration +
+                ";" + tooEarlyMultiplier +
+                ";" + tooLateMultiplier +
+                ";" + timeStart +
+                ";" + getTimeEnd() +
+                '}';
+    }
 }
