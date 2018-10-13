@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class FileManager {
 
@@ -34,6 +31,31 @@ public class FileManager {
             e.printStackTrace();
         }
         return instance;
+    }
+
+    public void writeInstanceToFile(String filename, int numberOfInstance, Instance instance, long solveTimeMilis){
+        File file = new File("solve_"+numberOfInstance+"_"+filename);
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))){
+            bufferedWriter.write(solveTimeMilis+"ms");
+            bufferedWriter.newLine();
+            bufferedWriter.write(makeHHeader(instance));
+            bufferedWriter.newLine();
+            for (Task task : instance.getTasks()) {
+                bufferedWriter.write(createTaskLine(task));
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.flush();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private String makeHHeader(Instance instance){
+        return instance.calcCost(0.2)+" "+instance.calcCost(0.4)+" "+instance.calcCost(0.6)+" "+instance.calcCost(0.8);
+    }
+
+    private String createTaskLine(Task task){
+        return task.getDuration()+" "+task.getTooEarlyMultiplier()+" "+task.getTooLateMultiplier()+" "+task.getTimeStart();
     }
 
     private String normalize(String string) {
