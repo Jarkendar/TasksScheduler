@@ -1,0 +1,15 @@
+Tms
+h=0.2 h=0.4 h=0.6 h=0.8
+d0 e0 t0 s0
+d1 e1 t1 s1
+...
+
+T->solve time in milliseconds
+h->multiplier sum durations
+x->0..n, n->number of tasks - 1
+dx->duration time of task number x
+ex->multiplier too earlier penalty of task number x
+tx->multiplier too late penalty of task number x
+sx->start time of task number x
+
+Filename->"solve_"+numberOfInstance+"_"+nameOfSolveFile
