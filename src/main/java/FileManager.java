@@ -38,7 +38,7 @@ public class FileManager {
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))){
             bufferedWriter.write(solveTimeMilis+"ms");
             bufferedWriter.newLine();
-            bufferedWriter.write(makeHHeader(instance));
+            bufferedWriter.write(createHHeader(instance));
             bufferedWriter.newLine();
             for (Task task : instance.getTasks()) {
                 bufferedWriter.write(createTaskLine(task));
@@ -50,7 +50,7 @@ public class FileManager {
         }
     }
 
-    private String makeHHeader(Instance instance){
+    private String createHHeader(Instance instance){
         return instance.calcCost(0.2)+" "+instance.calcCost(0.4)+" "+instance.calcCost(0.6)+" "+instance.calcCost(0.8);
     }
 
