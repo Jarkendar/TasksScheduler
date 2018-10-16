@@ -1,11 +1,12 @@
-public class AntScheduler {
-    private Instance originInstance;
+public class AntScheduler extends Scheduler{
     private PheromoneMatrix pheromoneMatrix;
 
     public AntScheduler(Instance originInstance) {
-        this.originInstance = originInstance;
+        super(originInstance);
     }
 
-
-
+    @Override
+    public Instance scheduleTask() {
+        return null;
+    }
 }
