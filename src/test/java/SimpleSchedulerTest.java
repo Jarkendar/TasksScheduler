@@ -14,6 +14,6 @@ class SimpleSchedulerTest {
         instance.addLast(task2);
         assertFalse(instance.isCorrect());
         SimpleScheduler simpleScheduler = new SimpleScheduler(instance);
-        assertTrue(simpleScheduler.scheduleTask().isCorrect());
+        assertTrue(simpleScheduler.scheduleTask(1.0).isCorrect());
     }
 }

@@ -77,7 +77,7 @@ class InstanceTest {
         assertEquals(4 + 3, instance.calcCost(1.0));
         assertEquals(0 + 4, instance.calcCost(0.5));
         assertEquals(3 + 8, instance.calcCost(0.0));
-        Instance correctInstance = new SimpleScheduler(instance).scheduleTask();
+        Instance correctInstance = new SimpleScheduler(instance).scheduleTask(1.0);
         assertTrue(correctInstance.isCorrect());
         assertEquals( 0 + 8, correctInstance.calcCost(0.5));
     }

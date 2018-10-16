@@ -14,7 +14,7 @@ class RandomSchedulerTest {
         instance.addLast(task2);
         assertFalse(instance.isCorrect());
         RandomScheduler randomScheduler = new RandomScheduler(instance);
-        Instance returnInstance = randomScheduler.scheduleTask();
+        Instance returnInstance = randomScheduler.scheduleTask(1.0);
         returnInstance.expand();
         assertTrue(returnInstance.isCorrect());
     }

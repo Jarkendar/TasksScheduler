@@ -8,7 +8,7 @@ public class RandomScheduler extends Scheduler {
     }
 
     @Override
-    public Instance scheduleTask() {
+    public Instance scheduleTask(double h) {
         Instance workInstance = getOriginInstance().clone();
         LinkedList<Task> tasks = new LinkedList<>();
         Random random = new Random();

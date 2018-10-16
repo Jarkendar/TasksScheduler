@@ -4,7 +4,7 @@ public class SimpleScheduler extends Scheduler{
         super(instance);
     }
 
-    public Instance scheduleTask(){
+    public Instance scheduleTask(double h){
         Instance workInstance = getOriginInstance().clone();
         for (int i = 1; i < workInstance.getSizeInstance(); ++i){
             workInstance.getTaskOnIndex(i).setTimeStart(workInstance.getTaskOnIndex(i-1).getTimeEnd());

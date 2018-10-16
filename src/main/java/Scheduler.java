@@ -9,5 +9,5 @@ public abstract class Scheduler {
         return originInstance;
     }
 
-    abstract public Instance scheduleTask();
+    abstract public Instance scheduleTask(double h);
 }
