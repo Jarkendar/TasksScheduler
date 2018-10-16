@@ -8,8 +8,8 @@ class InstanceTest {
     void addLast() {
         Instance instance = new Instance(2);
         assertTrue(instance.getTasks()[0] == null && instance.getTasks()[1] == null);
-        Task task1 = new Task(1, 2, 3);
-        Task task2 = new Task(2, 3, 4);
+        Task task1 = new Task(0,1, 2, 3);
+        Task task2 = new Task(1,2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
         assertTrue(instance.getTasks()[0] == task1 && instance.getTasks()[1] == task2);
@@ -19,8 +19,8 @@ class InstanceTest {
     void getDurationSum() {
         Instance instance = new Instance(2);
         assertEquals(-1, instance.getDurationSum());
-        Task task1 = new Task(1, 2, 3);
-        Task task2 = new Task(2, 3, 4);
+        Task task1 = new Task(0,1, 2, 3);
+        Task task2 = new Task(1,2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
         assertEquals(3, instance.getDurationSum());
@@ -29,8 +29,8 @@ class InstanceTest {
     @Test
     void isInstanceCorrect() {
         Instance instance = new Instance(2);
-        Task task1 = new Task(1, 2, 3);
-        Task task2 = new Task(2, 3, 4);
+        Task task1 = new Task(0,1, 2, 3);
+        Task task2 = new Task(1,2, 3, 4);;
         instance.addLast(task1);
         assertFalse(instance.isCorrect());
         instance.addLast(task2);
@@ -42,8 +42,8 @@ class InstanceTest {
     @Test
     void cloneIsIdentity() {
         Instance instance = new Instance(2);
-        Task task1 = new Task(1, 2, 3);
-        Task task2 = new Task(2, 3, 4);
+        Task task1 = new Task(0,1, 2, 3);
+        Task task2 = new Task(1,2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
         Instance cloneInstance = instance.clone();
@@ -58,8 +58,8 @@ class InstanceTest {
     @Test
     void getTaskOnIndex() {
         Instance instance = new Instance(2);
-        Task task1 = new Task(1, 2, 3);
-        Task task2 = new Task(2, 3, 4);
+        Task task1 = new Task(0,1, 2, 3);
+        Task task2 = new Task(1,2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
         assertNull(instance.getTaskOnIndex(-1));
@@ -70,8 +70,8 @@ class InstanceTest {
     @Test
     void calcCost() {
         Instance instance = new Instance(2);
-        Task task1 = new Task(1, 2, 3);
-        Task task2 = new Task(2, 3, 4);
+        Task task1 = new Task(0,1, 2, 3);
+        Task task2 = new Task(1,2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
         assertEquals(4 + 3, instance.calcCost(1.0));
@@ -85,8 +85,8 @@ class InstanceTest {
     @Test
     void swapTasks(){
         Instance instance = new Instance(2);
-        Task task1 = new Task(1, 2, 3);
-        Task task2 = new Task(2, 3, 4);
+        Task task1 = new Task(0,1, 2, 3);
+        Task task2 = new Task(1,2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
         assertTrue(instance.getTasks()[0] == task1 && instance.getTasks()[1] == task2);
@@ -101,8 +101,8 @@ class InstanceTest {
     @Test
     void expand(){
         Instance instance = new Instance(2);
-        Task task1 = new Task(1, 2, 3);
-        Task task2 = new Task(2, 3, 4);
+        Task task1 = new Task(0,1, 2, 3);
+        Task task2 = new Task(1,2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
         assertFalse(instance.isCorrect());

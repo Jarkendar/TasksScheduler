@@ -24,7 +24,7 @@ public class FileManager {
                 instance = new Instance(taskInInstance);
                 for (int j = 0; j< taskInInstance; ++j){
                     String[] taskParam = normalize(bufferedReader.readLine()).split(SEPARATOR);
-                    instance.addLast(new Task(Integer.parseInt(taskParam[0]),Integer.parseInt(taskParam[1]),Integer.parseInt(taskParam[2])));
+                    instance.addLast(new Task(j, Integer.parseInt(taskParam[0]),Integer.parseInt(taskParam[1]),Integer.parseInt(taskParam[2])));
                 }
             }
         } catch (IOException e) {

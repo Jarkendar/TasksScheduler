@@ -1,13 +1,19 @@
 public class Task {
+    private int id;
     private int duration;
     private int tooEarlyMultiplier;
     private int tooLateMultiplier;
     private int timeStart;
 
-    public Task(int duration, int tooEarlyMultiplier, int tooLateMultiplier) {
+    public Task(int id, int duration, int tooEarlyMultiplier, int tooLateMultiplier) {
+        this.id = id;
         this.duration = duration;
         this.tooEarlyMultiplier = tooEarlyMultiplier;
         this.tooLateMultiplier = tooLateMultiplier;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getDuration() {
@@ -35,12 +41,13 @@ public class Task {
     }
 
     public Task clone(){
-        return new Task(this.duration, this.tooEarlyMultiplier, this.tooLateMultiplier);
+        return new Task(this.id, this.duration, this.tooEarlyMultiplier, this.tooLateMultiplier);
     }
 
     @Override
     public String toString() {
-        return "Task{" + duration +
+        return "Task{" + id +
+                ";" + duration +
                 ";" + tooEarlyMultiplier +
                 ";" + tooLateMultiplier +
                 ";" + timeStart +

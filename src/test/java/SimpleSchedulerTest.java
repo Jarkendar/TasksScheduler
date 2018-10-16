@@ -8,8 +8,8 @@ class SimpleSchedulerTest {
     @Test
     void scheduleTaskIsCorrect(){
         Instance instance = new Instance(2);
-        Task task1 = new Task(1, 2, 3);
-        Task task2 = new Task(2, 3, 4);
+        Task task1 = new Task(0,1, 2, 3);
+        Task task2 = new Task(1,2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
         assertFalse(instance.isCorrect());
@@ -20,8 +20,8 @@ class SimpleSchedulerTest {
     @Test
     void randomScheduler() {
         Instance instance = new Instance(2);
-        Task task1 = new Task(1, 2, 3);
-        Task task2 = new Task(2, 3, 4);
+        Task task1 = new Task(0,1, 2, 3);
+        Task task2 = new Task(1,2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
         assertFalse(instance.isCorrect());
