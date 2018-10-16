@@ -34,7 +34,7 @@ public class FileManager {
     }
 
     public void writeInstanceToFile(String filename, int numberOfInstance, Instance instance, long solveTimeMilis){
-        File file = new File("solve_"+numberOfInstance+"_"+filename);
+        File file = new File("solve_"+numberOfInstance+"_"+System.currentTimeMillis()+"_"+filename);
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))){
             bufferedWriter.write(solveTimeMilis+"ms");
             bufferedWriter.newLine();
