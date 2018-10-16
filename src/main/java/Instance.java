@@ -7,6 +7,10 @@ public class Instance {
         tasks = new Task[size];
     }
 
+    public Instance(Task[] tasks){
+        this.tasks = tasks;
+    }
+
     public void addLast(Task newTask) {
         for (int i = 0; i < tasks.length; ++i) {
             if (!isTaskExist(tasks[i])) {
@@ -63,6 +67,14 @@ public class Instance {
             tasks[index1] = tasks[index2];
             tasks[index2] = tmp;
         }
+    }
+
+    public Instance expand(){
+        tasks[0].setTimeStart(0);
+        for (int i = 1; i<tasks.length; ++i){
+            tasks[i].setTimeStart(tasks[i-1].getTimeEnd());
+        }
+        return this;
     }
 
     public Instance clone() {

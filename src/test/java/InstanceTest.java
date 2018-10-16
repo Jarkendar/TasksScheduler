@@ -96,6 +96,18 @@ class InstanceTest {
         assertTrue(instance.getTasks()[0] == task1 && instance.getTasks()[1] == task2);
         instance.swapTasks(0,1);
         assertTrue(instance.getTasks()[0] == task2 && instance.getTasks()[1] == task1);
+    }
+
+    @Test
+    void expand(){
+        Instance instance = new Instance(2);
+        Task task1 = new Task(1, 2, 3);
+        Task task2 = new Task(2, 3, 4);
+        instance.addLast(task1);
+        instance.addLast(task2);
+        assertFalse(instance.isCorrect());
+        instance.expand();
+        assertTrue(instance.isCorrect());
 
     }
 }
