@@ -12,7 +12,7 @@ class PheromoneMatrixTest {
         Task task2 = new Task(1,2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
-        pheromoneMatrix.addPheromoneOnPath(instance.expand().getTasks());
+        pheromoneMatrix.addPheromoneOnPath(instance.expand().getTasks(), 1);
         pheromoneMatrix.evaporatesPheromone();
         assertEquals(0.0, pheromoneMatrix.getMatrix()[0][0]);
         assertEquals(PheromoneMatrix.PHEROMONE_ADDITION*PheromoneMatrix.EVAPORATE_MULTIPLIER_CONTAINS, pheromoneMatrix.getMatrix()[0][1]);
@@ -28,7 +28,7 @@ class PheromoneMatrixTest {
         Task task2 = new Task(1,2, 3, 4);
         instance.addLast(task1);
         instance.addLast(task2);
-        pheromoneMatrix.addPheromoneOnPath(instance.expand().getTasks());
+        pheromoneMatrix.addPheromoneOnPath(instance.expand().getTasks(),1);
         assertEquals(0.0, pheromoneMatrix.getMatrix()[0][0]);
         assertEquals(PheromoneMatrix.PHEROMONE_ADDITION, pheromoneMatrix.getMatrix()[0][1]);
         assertEquals(0.0, pheromoneMatrix.getMatrix()[1][0]);

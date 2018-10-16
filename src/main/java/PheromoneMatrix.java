@@ -17,14 +17,14 @@ public class PheromoneMatrix {
         return matrix;
     }
 
-    public void addPheromoneOnPath(Task[] tasks){
+    public void addPheromoneOnPath(Task[] tasks, int multiplier){
         for (int i = 1; i<tasks.length; ++i){
-            addPheromoneOnPoint(tasks[i-1].getId(), tasks[i].getId());
+            addPheromoneOnPoint(tasks[i-1].getId(), tasks[i].getId(), multiplier);
         }
     }
 
-    private void addPheromoneOnPoint(int from, int to){
-        matrix[from][to] += PHEROMONE_ADDITION;
+    private void addPheromoneOnPoint(int from, int to, int multiplier){
+        matrix[from][to] += PHEROMONE_ADDITION*multiplier;
     }
 
     public void evaporatesPheromone(){
