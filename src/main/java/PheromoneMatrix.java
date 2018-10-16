@@ -27,6 +27,10 @@ public class PheromoneMatrix {
         matrix[from][to] += PHEROMONE_ADDITION*multiplier;
     }
 
+    public int getPotentialNextTaskId(int from){
+        return new Roulette().randNext(matrix[from]);
+    }
+
     public void evaporatesPheromone(){
         for (int i = 0; i<matrix.length; ++i){
             for (int j = 0; j<matrix[i].length; ++j){

@@ -34,4 +34,18 @@ class PheromoneMatrixTest {
         assertEquals(0.0, pheromoneMatrix.getMatrix()[1][0]);
         assertEquals(0.0, pheromoneMatrix.getMatrix()[1][1]);
     }
+
+    @Test
+    void getPotentialNextTaskId(){
+        PheromoneMatrix pheromoneMatrix = new PheromoneMatrix(2);
+        Instance instance = new Instance(2);
+        Task task1 = new Task(0,1, 2, 3);
+        Task task2 = new Task(1,2, 3, 4);
+        instance.addLast(task1);
+        instance.addLast(task2);
+        pheromoneMatrix.addPheromoneOnPath(instance.expand().getTasks(),1);
+        assertEquals(1, pheromoneMatrix.getPotentialNextTaskId(0));
+        assertEquals(-1, pheromoneMatrix.getPotentialNextTaskId(1));
+
+    }
 }
