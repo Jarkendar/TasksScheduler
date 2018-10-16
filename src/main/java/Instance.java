@@ -57,6 +57,18 @@ public class Instance {
         return fullCost;
     }
 
+    public int calcCost(int boundary){
+        int fullCost = 0;
+        for (int i = 0;  i < tasks.length; ++i){
+            if (tasks[i].getTimeEnd() < boundary){
+                fullCost += calcPartCost(boundary, tasks[i].getTooEarlyMultiplier(), tasks[i].getTimeEnd());
+            }else {
+                fullCost += calcPartCost(boundary, tasks[i].getTooLateMultiplier(), tasks[i].getTimeEnd());
+            }
+        }
+        return fullCost;
+    }
+
     private int calcPartCost(int boundary, int multiplier, int timeEnd){
         return multiplier*(Math.abs(boundary-timeEnd));
     }
