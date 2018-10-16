@@ -1,5 +1,5 @@
 public class PheromoneMatrix {
-    private final static double EVAPORATE_MULTIPLIER = 0.9;
+    private final static double EVAPORATE_MULTIPLIER_CONTAINS = 0.9;
 
     double[][] matrix; //[] row|from , [] column|to
 
@@ -15,7 +15,7 @@ public class PheromoneMatrix {
     public void evaporatesPheromone(){
         for (int i = 0; i<matrix.length; ++i){
             for (int j = 0; j<matrix[i].length; ++j){
-                matrix[i][j] *= EVAPORATE_MULTIPLIER;
+                matrix[i][j] *= EVAPORATE_MULTIPLIER_CONTAINS;
             }
         }
     }
