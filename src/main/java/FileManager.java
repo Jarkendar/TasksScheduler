@@ -33,16 +33,15 @@ public class FileManager {
         return instance;
     }
 
-    public void writeInstanceToFile(String filename, int numberOfInstance, Instance instance, long solveTimeMilis){
-        File file = new File("solve_"+numberOfInstance+"_"+System.currentTimeMillis()+"_"+filename);
+    public void writeInstanceToFile(String filename, int numberOfInstance, Instance instance, double h){
+        File file = new File(filename+"_"+numberOfInstance+"_"+(int)(h*10)+".txt");
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))){
-            bufferedWriter.write(solveTimeMilis+"ms");
+            bufferedWriter.write(((int)(h*10)) + "");
             bufferedWriter.newLine();
-            bufferedWriter.write(createHHeader(instance));
-            bufferedWriter.newLine();
+            bufferedWriter.write(createHHeader(instance, h, numberOfInstance));
             for (Task task : instance.getTasks()) {
-                bufferedWriter.write(createTaskLine(task));
                 bufferedWriter.newLine();
+                bufferedWriter.write(createTaskLine(task));
             }
             bufferedWriter.flush();
         }catch (IOException e){
@@ -50,12 +49,12 @@ public class FileManager {
         }
     }
 
-    private String createHHeader(Instance instance){
-        return instance.calcCost(0.2)+" "+instance.calcCost(0.4)+" "+instance.calcCost(0.6)+" "+instance.calcCost(0.8);
+    private String createHHeader(Instance instance, double h, int numberOfInstance){
+        return instance.calcCost(h)+"\n"+numberOfInstance+"\n"+instance.getStartPoint();
     }
 
     private String createTaskLine(Task task){
-        return task.getDuration()+" "+task.getTooEarlyMultiplier()+" "+task.getTooLateMultiplier()+" "+task.getTimeStart();
+        return task.getDuration()+"\t"+task.getTooEarlyMultiplier()+"\t"+task.getTooLateMultiplier();
     }
 
     private String normalize(String string) {
