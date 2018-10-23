@@ -5,7 +5,7 @@ public class Main {
             System.out.println(args[0]+ " " + args[1]+ " " + args[2]);
             double h = Double.parseDouble(args[2]);
             Instance instance = new FileManager().readInstanceFromFile(args[0],Integer.parseInt(args[1]));
-            new FileManager().writeInstanceToFile(args[0].split("[.]")[0], Integer.parseInt(args[1]), new AntScheduler(instance, 1 * 1000).scheduleTask(h), h);
+            new FileManager().writeInstanceToFile(args[0].split("[.]")[0], Integer.parseInt(args[1]), new RatioScheduler(instance).scheduleTask(h), h);
         }else{
             System.out.println("You didn't add params. File with instances and number of instance.");
         }
