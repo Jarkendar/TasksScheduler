@@ -4,12 +4,14 @@ public class Task {
     private int tooEarlyMultiplier;
     private int tooLateMultiplier;
     private int timeStart;
+    private double ratio;
 
     public Task(int id, int duration, int tooEarlyMultiplier, int tooLateMultiplier) {
         this.id = id;
         this.duration = duration;
         this.tooEarlyMultiplier = tooEarlyMultiplier;
         this.tooLateMultiplier = tooLateMultiplier;
+        ratio = ((double)tooEarlyMultiplier)/((double) tooLateMultiplier);
     }
 
     public int getId() {
@@ -38,6 +40,10 @@ public class Task {
 
     public int getTimeEnd() {
         return timeStart + duration;
+    }
+
+    public double getRatio() {
+        return ratio;
     }
 
     public Task clone(){
