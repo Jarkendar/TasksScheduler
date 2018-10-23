@@ -9,6 +9,7 @@ public class AntScheduler extends Scheduler {
     private final static int INSTANCES_FOR_ITERATIONS = 200;
     private final static int BEST_INSTANCES = 10;
     private final static int MAX_TRIES = 3;
+    private final static int MAX_THREAD = 4;
 
     private long timeForCalculations;
     private double chanceUsePheromones = 0.05;
@@ -26,15 +27,22 @@ public class AntScheduler extends Scheduler {
         Instance workInstance = getOriginInstance().clone();
         int BOUNDARY = (int) (workInstance.getDurationSum() * h);
         long actualTime = System.currentTimeMillis();
-        Random random = new Random();
         LinkedList<Instance> potentialInstances = new LinkedList<>();
+        int epoc = 1;
+        Thread[] threads = new Thread[MAX_THREAD];
         do{
+            System.out.println(epoc++);
 //CREATE INSTANCES
-            while (potentialInstances.size() < INSTANCES_FOR_ITERATIONS) {
-                if (random.nextDouble() > chanceUsePheromones) {//RANDOM
-                    potentialInstances.addLast(new RandomScheduler(workInstance.clone()).scheduleTask(h));
-                } else {
-                    potentialInstances.addLast(createInstanceWithMatrix(workInstance.clone()));
+            for(int t = 0; t<MAX_THREAD; t++){
+                threads[t] = new Thread(new InstanceGenerator(workInstance.clone(),potentialInstances, h));
+                threads[t].setDaemon(true);
+                threads[t].start();
+            }
+            for (int t = 0; t<MAX_THREAD; t++){
+                try {
+                    threads[t].join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
 //TOURNAMENT
@@ -119,5 +127,37 @@ public class AntScheduler extends Scheduler {
 
     private void increasePheromoneChance() {
         chanceUsePheromones += chanceUsePheromones < MAX_PHEROMONE_CHANCE ? INCREASE_PHEROMONE_CHANCE : 0;
+    }
+
+    private void addFirstToList(LinkedList<Instance> list, Instance instance){
+        synchronized (this){
+            list.addFirst(instance);
+        }
+    }
+
+    private class InstanceGenerator implements Runnable{
+
+        private Instance instance;
+        private LinkedList<Instance> potentialInstances;
+        private Random random;
+        private double h;
+
+        public InstanceGenerator(Instance instance, LinkedList<Instance> potentialInstances, double h) {
+            this.instance = instance;
+            this.potentialInstances = potentialInstances;
+            random = new Random(System.currentTimeMillis());
+            this.h = h;
+        }
+
+        @Override
+        public void run() {
+            while (potentialInstances.size() < INSTANCES_FOR_ITERATIONS) {
+                if (random.nextDouble() > chanceUsePheromones) {//RANDOM
+                    addFirstToList(potentialInstances, new RandomScheduler(instance.clone()).scheduleTask(h));
+                } else {
+                    addFirstToList(potentialInstances, createInstanceWithMatrix(instance.clone()));
+                }
+            }
+        }
     }
 }
