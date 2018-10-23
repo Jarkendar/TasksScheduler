@@ -2,6 +2,7 @@ import java.util.Arrays;
 
 public class Instance {
     private Task[] tasks;
+    private int startPoint = 0;
 
     public Instance(int size) {
         tasks = new Task[size];
@@ -114,6 +115,14 @@ public class Instance {
 
     public int getSizeInstance() {
         return tasks.length;
+    }
+
+    public int getStartPoint() {
+        return startPoint;
+    }
+
+    public void setStartPoint(int startPoint) {
+        this.startPoint = startPoint;
     }
 
     @Override
