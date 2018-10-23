@@ -83,7 +83,7 @@ public class Instance {
     }
 
     public Instance expand(){
-        tasks[0].setTimeStart(0);
+        tasks[0].setTimeStart(startPoint);
         for (int i = 1; i<tasks.length; ++i){
             tasks[i].setTimeStart(tasks[i-1].getTimeEnd());
         }
