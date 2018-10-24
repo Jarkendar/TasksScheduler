@@ -51,14 +51,6 @@ public class RatioScheduler extends Scheduler {
         return instance;
     }
 
-    private boolean fitBeforeBorder(int border, Task task){
-        int sum = 0;
-        for (Task t : betterEarlier){
-            sum += t.getDuration();
-        }
-        return sum + task.getDuration() <= border;
-    }
-
     private Instance shiftStartPoint(Instance instance, int boundary){
         int bestStartPoint = 0;
         int currentResult = instance.calcCost(boundary);
