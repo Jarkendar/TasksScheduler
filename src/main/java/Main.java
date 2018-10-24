@@ -6,7 +6,9 @@ public class Main {
             double h = Double.parseDouble(args[2]);
             Instance instance = new FileManager().readInstanceFromFile(args[0],Integer.parseInt(args[1]));
             new FileManager().writeInstanceToFile(args[0].split("[.]")[0], Integer.parseInt(args[1]), new RatioScheduler(instance).scheduleTask(h), h);
-        }else{
+        }else if (args.length == 1){
+            new FileManager().checkInstanceFromFile(args[0]);
+        }else {
             System.out.println("You didn't add params. File with instances and number of instance.");
         }
     }
