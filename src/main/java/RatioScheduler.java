@@ -15,31 +15,32 @@ public class RatioScheduler extends Scheduler {
     @Override
     public Instance scheduleTask(double h) {
         Task[] tasks = getOriginInstance().getTasks();
-        sortOfRatio(tasks, getOriginInstance().getDurationSum());
+        int boundary = (int)(getOriginInstance().getDurationSum()*h);
+        sortOfRatio(tasks, boundary);
         betterEarlier.sort(Comparator.comparingDouble(Task::getTooEarlyMultiplier));
         betterLater.sort(Comparator.comparingDouble(Task::getTooLateMultiplier).reversed());
         LinkedList<Task> result = new LinkedList<>(betterEarlier);
         result.addAll(result.size(), betterLater);
         Instance resultInstance = new Instance(result.toArray(new Task[0])).expand();
-        canSwapNeighbourTask(resultInstance, getOriginInstance().getDurationSum());
-        return resultInstance;
+        canSwapNeighbourTask(resultInstance, boundary);
+        return canSwapNeighbourTask(shiftStartPoint(resultInstance, boundary), boundary);
     }
 
     private void sortOfRatio(Task[] tasks, int border){
         for (Task task : tasks) {
             if (task.getRatio() < 1.0) {
-                if (fitBeforeBorder(border, task)) {
+//                if (fitBeforeBorder(border, task)) {
                     betterEarlier.addFirst(task);
-                }else {
-                    betterLater.addFirst(task);
-                }
+//                }else {
+//                    betterLater.addFirst(task);
+//                }
             } else {
                 betterLater.addFirst(task);
             }
         }
     }
 
-    private void canSwapNeighbourTask(Instance instance, int boundary){
+    private Instance canSwapNeighbourTask(Instance instance, int boundary){
         for (int i = 1;  i <  instance.getSizeInstance()-1; i++){
             Instance tmp = instance.clone();
             tmp.swapTasks(i-1, i);
@@ -47,6 +48,7 @@ public class RatioScheduler extends Scheduler {
                 instance = tmp;
             }
         }
+        return instance;
     }
 
     private boolean fitBeforeBorder(int border, Task task){
@@ -55,5 +57,20 @@ public class RatioScheduler extends Scheduler {
             sum += t.getDuration();
         }
         return sum + task.getDuration() <= border;
+    }
+
+    private Instance shiftStartPoint(Instance instance, int boundary){
+        int bestStartPoint = 0;
+        int currentResult = instance.calcCost(boundary);
+        instance.setStartPoint(bestStartPoint+1);
+        instance.expand();
+        while (instance.calcCost(boundary) < currentResult){
+            bestStartPoint = instance.getStartPoint();
+            currentResult = instance.calcCost(boundary);
+            instance.setStartPoint(bestStartPoint+1);
+            instance.expand();
+        }
+        instance.setStartPoint(bestStartPoint);
+        return instance.expand();
     }
 }
