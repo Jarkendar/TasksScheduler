@@ -95,7 +95,7 @@ public class FileManager {
                 "Predicted cost = " + predictedCost + "\n" +
                 "Start point = " + startPoint + "\n" +
                 "Calc cost = " + calcCost + "\n" +
-                "Correct = " + (predictedCost == calcCost);
+                "Correct = " + (predictedCost == calcCost) + "\n";
         System.out.println(string);
 
     }

@@ -3,7 +3,6 @@ public class Main {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
         if (args.length == 3) {
-            System.out.println(args[0]+ " " + args[1]+ " " + args[2]);
             double h = Double.parseDouble(args[2]);
             Instance instance = new FileManager().readInstanceFromFile(args[0],Integer.parseInt(args[1]));
             new FileManager().writeInstanceToFile(args[0].split("[.]")[0], Integer.parseInt(args[1]), new RatioScheduler(instance).scheduleTask(h), h);
@@ -12,7 +11,7 @@ public class Main {
         }else {
             System.out.println("You didn't add params. File with instances and number of instance.");
         }
-        System.out.println(System.currentTimeMillis()-start);
+        System.out.println(args[0]+ " " + args[1]+ " " + args[2] + " " + (System.currentTimeMillis()-start) + "ms");
     }
 }
 
