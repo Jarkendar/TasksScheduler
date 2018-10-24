@@ -1,6 +1,7 @@
 public class Main {
 
     public static void main(String[] args) {
+        long start = System.currentTimeMillis();
         if (args.length == 3) {
             System.out.println(args[0]+ " " + args[1]+ " " + args[2]);
             double h = Double.parseDouble(args[2]);
@@ -11,6 +12,7 @@ public class Main {
         }else {
             System.out.println("You didn't add params. File with instances and number of instance.");
         }
+        System.out.println(System.currentTimeMillis()-start);
     }
 }
 
