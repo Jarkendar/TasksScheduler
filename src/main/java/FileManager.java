@@ -12,7 +12,6 @@ public class FileManager {
         }
         Instance instance = null;
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            String line = bufferedReader.readLine();
             int allInstances = Integer.parseInt(normalize(bufferedReader.readLine()));
             for (int i = 0; i < allInstances; ++i) {
                 int taskInInstance = Integer.parseInt(normalize(bufferedReader.readLine()));
