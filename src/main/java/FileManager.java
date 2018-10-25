@@ -60,10 +60,10 @@ public class FileManager {
             int potentialCost = Integer.parseInt(bufferedReader.readLine());
             int instanceNumber = Integer.parseInt(bufferedReader.readLine());
             int startPoint = Integer.parseInt(bufferedReader.readLine());
-            int taskInInstance = Integer.parseInt(filename.split("_")[0].substring(3));
+            int taskInInstance = Integer.parseInt(filename.split("_")[0].split("h")[1]);
             instance = new Instance(taskInInstance);
             for (int j = 0; j < taskInInstance; ++j) {
-                String[] taskParam = bufferedReader.readLine().split(SEPARATOR_TAB);
+                String[] taskParam = normalize(bufferedReader.readLine()).split(SEPARATOR);
                 instance.addLast(new Task(j, Integer.parseInt(taskParam[0]), Integer.parseInt(taskParam[1]), Integer.parseInt(taskParam[2])));
             }
             instance.setStartPoint(startPoint);
@@ -84,7 +84,7 @@ public class FileManager {
     }
 
     private String normalize(String string) {
-        return string.replaceAll("\\s+", SEPARATOR).substring(1).trim();
+        return string.trim().replaceAll("\\s+", SEPARATOR);
     }
 
     private void display(String filename, int tasksInInstance, double h, int predictedCost, int numberOfInstance,int startPoint, int calcCost){
@@ -95,7 +95,7 @@ public class FileManager {
                 "Predicted cost = " + predictedCost + "\n" +
                 "Start point = " + startPoint + "\n" +
                 "Calc cost = " + calcCost + "\n" +
-                "Correct = " + (predictedCost == calcCost) + "\n";
+                "Correct = " + (predictedCost == calcCost);
         System.out.println(string);
 
     }
