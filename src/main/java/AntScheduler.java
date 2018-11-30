@@ -4,22 +4,23 @@ import java.util.Random;
 
 public class AntScheduler extends Scheduler {
 
-    private final static double INCREASE_PHEROMONE_CHANCE = 0.05;
-    private final static double MAX_PHEROMONE_CHANCE = 0.85;
-    private final static int INSTANCES_FOR_ITERATIONS = 200;
+    private final static double INCREASE_PHEROMONE_CHANCE = 0.001;
+    private final static double MAX_PHEROMONE_CHANCE = 0.80;
+    private final static int INSTANCES_PER_ITERATIONS = 50;
     private final static int BEST_INSTANCES = 10;
-    private final static int MAX_TRIES = 3;
+    private final static int MAX_TRIES = 1;
     private final static int MAX_THREAD = 4;
 
     private long timeForCalculations;
     private double chanceUsePheromones = 0.05;
     private PheromoneMatrix pheromoneMatrix;
+    private Instance seedInstance;
 
-
-    public AntScheduler(Instance originInstance, long timeForCalculations) {
+    public AntScheduler(Instance originInstance, long timeForCalculations, Instance seedInstance) {
         super(originInstance);
         this.timeForCalculations = timeForCalculations;
         pheromoneMatrix = new PheromoneMatrix(originInstance.getSizeInstance());
+        this.seedInstance = seedInstance;
     }
 
     @Override
@@ -28,17 +29,18 @@ public class AntScheduler extends Scheduler {
         int BOUNDARY = (int) (workInstance.getDurationSum() * h);
         long actualTime = System.currentTimeMillis();
         LinkedList<Instance> potentialInstances = new LinkedList<>();
+        potentialInstances.add(seedInstance);
         int epoc = 1;
         Thread[] threads = new Thread[MAX_THREAD];
-        do{
+        do {
             System.out.println(epoc++);
 //CREATE INSTANCES
-            for(int t = 0; t<MAX_THREAD; t++){
-                threads[t] = new Thread(new InstanceGenerator(workInstance.clone(),potentialInstances, h));
+            for (int t = 0; t < MAX_THREAD; t++) {
+                threads[t] = new Thread(new InstanceGenerator(workInstance.clone(), potentialInstances, h, BOUNDARY));
                 threads[t].setDaemon(true);
                 threads[t].start();
             }
-            for (int t = 0; t<MAX_THREAD; t++){
+            for (int t = 0; t < MAX_THREAD; t++) {
                 try {
                     threads[t].join();
                 } catch (InterruptedException e) {
@@ -49,16 +51,18 @@ public class AntScheduler extends Scheduler {
             LinkedList<Instance> winners = reduceInstancesInTournament(potentialInstances, BOUNDARY, BEST_INSTANCES);
             winners.sort(Comparator.comparingInt(instance -> instance.calcCost(BOUNDARY)));
 //ADD TO MATRIX
-            for (int i = 0; i <  winners.size(); ++i){
-                pheromoneMatrix.addPheromoneOnPath(winners.get(i).getTasks(), i+1);
+            for (int i = 0; i < winners.size(); ++i) {
+                pheromoneMatrix.addPheromoneOnPath(winners.get(i).getTasks(), i + 1);
             }
 //MANAGE VARIABLES
             pheromoneMatrix.evaporatesPheromone();
             increasePheromoneChance();
             potentialInstances = winners;
-        }while (timeForCalculations > (System.currentTimeMillis() - actualTime));
-
-        return reduceInstancesInTournament(potentialInstances, BOUNDARY, 1).getFirst();
+        } while (timeForCalculations > (System.currentTimeMillis() - actualTime));
+//SHIFT
+        LinkedList<Instance> winners = reduceInstancesInTournament(potentialInstances, BOUNDARY, 1);
+        winners.sort(Comparator.comparingInt(instance -> instance.calcCost(BOUNDARY)));
+        return winners.getFirst();
     }
 
     private Instance createInstanceWithMatrix(Instance workInstance) {
@@ -116,7 +120,7 @@ public class AntScheduler extends Scheduler {
                 first = random.nextInt(participants.size());
                 second = random.nextInt(participants.size());
             }
-            if (participants.get(first).calcCost(boundary) < participants.get(second).calcCost(boundary)) {
+            if (participants.get(first).calcCost(boundary) <= participants.get(second).calcCost(boundary)) {
                 participants.remove(second);
             } else {
                 participants.remove(first);
@@ -129,33 +133,37 @@ public class AntScheduler extends Scheduler {
         chanceUsePheromones += chanceUsePheromones < MAX_PHEROMONE_CHANCE ? INCREASE_PHEROMONE_CHANCE : 0;
     }
 
-    private void addFirstToList(LinkedList<Instance> list, Instance instance){
-        synchronized (this){
+    private void addFirstToList(LinkedList<Instance> list, Instance instance) {
+        synchronized (this) {
             list.addFirst(instance);
         }
     }
 
-    private class InstanceGenerator implements Runnable{
+    private class InstanceGenerator implements Runnable {
 
         private Instance instance;
         private LinkedList<Instance> potentialInstances;
         private Random random;
         private double h;
+        private RandomScheduler randomScheduler;
+        private int boundary;
 
-        public InstanceGenerator(Instance instance, LinkedList<Instance> potentialInstances, double h) {
+        public InstanceGenerator(Instance instance, LinkedList<Instance> potentialInstances, double h, int boundary) {
+            randomScheduler = new RandomScheduler(instance.clone());
             this.instance = instance;
             this.potentialInstances = potentialInstances;
             random = new Random(System.currentTimeMillis());
             this.h = h;
+            this.boundary = boundary;
         }
 
         @Override
         public void run() {
-            while (potentialInstances.size() < INSTANCES_FOR_ITERATIONS) {
+            while (potentialInstances.size() < INSTANCES_PER_ITERATIONS) {
                 if (random.nextDouble() > chanceUsePheromones) {//RANDOM
-                    addFirstToList(potentialInstances, new RandomScheduler(instance.clone()).scheduleTask(h));
+                    addFirstToList(potentialInstances, RatioScheduler.shiftStartPoint(randomScheduler.scheduleTask(h), boundary));
                 } else {
-                    addFirstToList(potentialInstances, createInstanceWithMatrix(instance.clone()));
+                    addFirstToList(potentialInstances, RatioScheduler.shiftStartPoint(createInstanceWithMatrix(instance.clone()), boundary));
                 }
             }
         }
