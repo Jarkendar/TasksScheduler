@@ -13,7 +13,7 @@ class AntSchedulerTest {
         instance.addLast(task1);
         instance.addLast(task2);
         assertFalse(instance.isCorrect());
-        AntScheduler antScheduler = new AntScheduler(instance, 0);
+        AntScheduler antScheduler = new AntScheduler(instance, 0, instance);
         Instance returnInstance = antScheduler.scheduleTask(0.8);
         returnInstance.expand();
         assertTrue(returnInstance.isCorrect());
