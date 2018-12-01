@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class AntScheduler extends Scheduler {
 
-    private final static double INCREASE_PHEROMONE_CHANCE = 0.001;
+    private final static double INCREASE_PHEROMONE_CHANCE = 0.0005;
     private final static double MAX_PHEROMONE_CHANCE = 0.80;
     private final static int INSTANCES_PER_ITERATIONS = 50;
     private final static int BEST_INSTANCES = 10;
