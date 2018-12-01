@@ -3,6 +3,8 @@ import java.util.Arrays;
 public class Instance {
     private Task[] tasks;
     private int startPoint = 0;
+    private int currentCost;
+    private boolean costIsCorrect = false;
 
     public Instance(int size) {
         tasks = new Task[size];
@@ -10,6 +12,12 @@ public class Instance {
 
     public Instance(Task[] tasks){
         this.tasks = tasks;
+    }
+
+    public Instance(Task[] tasks, int currentCost, boolean costIsCorrect){
+        this.tasks = tasks;
+        this.currentCost = currentCost;
+        this.costIsCorrect = costIsCorrect;
     }
 
     public void addLast(Task newTask) {
@@ -47,13 +55,19 @@ public class Instance {
 
     public int calcCost(double restrictMultiplier) {
         int fullCost = 0;
-        int boundary = (int) (getDurationSum() * restrictMultiplier);
-        for (int i = 0;  i < tasks.length; ++i){
-            if (tasks[i].getTimeEnd() < boundary){
-                fullCost += calcPartCost(boundary, tasks[i].getTooEarlyMultiplier(), tasks[i].getTimeEnd());
-            }else {
-                fullCost += calcPartCost(boundary, tasks[i].getTooLateMultiplier(), tasks[i].getTimeEnd());
+        if (!costIsCorrect) {
+            int boundary = (int) (getDurationSum() * restrictMultiplier);
+            for (int i = 0; i < tasks.length; ++i) {
+                if (tasks[i].getTimeEnd() < boundary) {
+                    fullCost += calcPartCost(boundary, tasks[i].getTooEarlyMultiplier(), tasks[i].getTimeEnd());
+                } else {
+                    fullCost += calcPartCost(boundary, tasks[i].getTooLateMultiplier(), tasks[i].getTimeEnd());
+                }
             }
+            currentCost = fullCost;
+            costIsCorrect = true;
+        }else {
+            return currentCost;
         }
         return fullCost;
     }
@@ -79,6 +93,7 @@ public class Instance {
             Task tmp = tasks[index1];
             tasks[index1] = tasks[index2];
             tasks[index2] = tmp;
+            costIsCorrect = false;
         }
     }
 
@@ -87,6 +102,7 @@ public class Instance {
         for (int i = 1; i<tasks.length; ++i){
             tasks[i].setTimeStart(tasks[i-1].getTimeEnd());
         }
+        costIsCorrect = false;
         return this;
     }
 
@@ -123,6 +139,7 @@ public class Instance {
 
     public void setStartPoint(int startPoint) {
         this.startPoint = startPoint;
+        costIsCorrect = false;
     }
 
     @Override
