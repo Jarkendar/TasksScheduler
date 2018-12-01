@@ -51,8 +51,8 @@ public class AntScheduler extends Scheduler {
             LinkedList<Instance> winners = reduceInstancesInTournament(potentialInstances, BOUNDARY, BEST_INSTANCES);
             winners.sort(Comparator.comparingInt(instance -> instance.calcCost(BOUNDARY)));
 //ADD TO MATRIX
-            for (int i = 0; i < winners.size(); ++i) {
-                pheromoneMatrix.addPheromoneOnPath(winners.get(i).getTasks(), i + 1);
+            for (int i = 0, j = winners.size(); i < winners.size(); i++, j--) {
+                pheromoneMatrix.addPheromoneOnPath(winners.get(i).getTasks(), j);
             }
 //MANAGE VARIABLES
             pheromoneMatrix.evaporatesPheromone();
