@@ -5,6 +5,8 @@ public class Task {
     private int tooLateMultiplier;
     private int timeStart;
     private double ratio;
+    private double earlyToDuration;
+    private double lateToDuration;
 
     public Task(int id, int duration, int tooEarlyMultiplier, int tooLateMultiplier) {
         this.id = id;
@@ -12,6 +14,16 @@ public class Task {
         this.tooEarlyMultiplier = tooEarlyMultiplier;
         this.tooLateMultiplier = tooLateMultiplier;
         ratio = ((double)tooEarlyMultiplier)/((double) tooLateMultiplier);
+        earlyToDuration = ((double) tooEarlyMultiplier)/((double) duration);
+        lateToDuration = ((double) tooLateMultiplier)/((double) duration);
+    }
+
+    public double getEarlyToDuration() {
+        return earlyToDuration;
+    }
+
+    public double getLateToDuration() {
+        return lateToDuration;
     }
 
     public int getId() {
