@@ -17,18 +17,27 @@ public class RatioScheduler extends Scheduler {
         int boundary = (int) (getOriginInstance().getDurationSum() * h);
         sortOfRatio(tasks, boundary);
         betterEarlier.sort((p1, p2) -> {
-            if (p1.getTooEarlyMultiplier() == p2.getTooEarlyMultiplier()) {
-                return -Integer.compare(p1.getDuration(), p2.getDuration());
-            } else {
-                return Integer.compare(p1.getTooEarlyMultiplier(), p2.getTooEarlyMultiplier());
+            if (p1.getEarlyToDuration() == p2.getEarlyToDuration()){
+                if (p1.getTooEarlyMultiplier() == p2.getTooEarlyMultiplier()) {
+                    return -Integer.compare(p1.getDuration(), p2.getDuration());
+                } else {
+                    return Integer.compare(p1.getTooEarlyMultiplier(), p2.getTooEarlyMultiplier());
+                }
+            }else {
+                return Double.compare(p1.getEarlyToDuration(), p2.getEarlyToDuration());
             }
         });
         betterLater.sort((p1, p2) -> {
-            if (p1.getTooLateMultiplier() == p2.getTooLateMultiplier()) {
-                return Integer.compare(p1.getDuration(), p2.getDuration());
-            } else {
-                return -Integer.compare(p1.getTooLateMultiplier(), p2.getTooLateMultiplier());
+            if (p1.getLateToDuration() == p2.getLateToDuration()){
+                if (p1.getTooLateMultiplier() == p2.getTooLateMultiplier()) {
+                    return Integer.compare(p1.getDuration(), p2.getDuration());
+                } else {
+                    return -Integer.compare(p1.getTooLateMultiplier(), p2.getTooLateMultiplier());
+                }
+            }else {
+                return Double.compare(-p1.getLateToDuration(), -p2.getLateToDuration());
             }
+
         });
         LinkedList<Task> result = new LinkedList<>(betterEarlier);
         result.addAll(result.size(), betterLater);
