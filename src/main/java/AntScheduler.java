@@ -9,7 +9,7 @@ public class AntScheduler extends Scheduler {
     private final static int INSTANCES_PER_ITERATIONS = 50;
     private final static int BEST_INSTANCES = 10;
     private final static int MAX_TRIES = 1;
-    private final static int MAX_THREAD = 4;
+    public final static int MAX_THREAD = Runtime.getRuntime().availableProcessors();
 
     private long timeForCalculations;
     private double chanceUsePheromones = 0.05;

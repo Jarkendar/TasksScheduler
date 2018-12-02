@@ -32,10 +32,9 @@ public class PheromoneMatrix {
     }
 
     public void evaporatesPheromone() {
-        int maxThreads = 4;
-        Thread[] threads = new Thread[maxThreads];
+        Thread[] threads = new Thread[AntScheduler.MAX_THREAD];
         for (int i = 0; i < threads.length; i++) {
-            threads[i] = new Thread(new MatrixEvaporator(i, maxThreads));
+            threads[i] = new Thread(new MatrixEvaporator(i, AntScheduler.MAX_THREAD));
             threads[i].setDaemon(true);
             threads[i].start();
         }
