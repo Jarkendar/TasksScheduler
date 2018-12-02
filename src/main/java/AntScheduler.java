@@ -161,9 +161,9 @@ public class AntScheduler extends Scheduler {
         public void run() {
             while (potentialInstances.size() < INSTANCES_PER_ITERATIONS) {
                 if (random.nextDouble() > chanceUsePheromones) {//RANDOM
-                    addFirstToList(potentialInstances, RatioScheduler.shiftStartPoint(randomScheduler.scheduleTask(h), boundary));
+                    addFirstToList(potentialInstances, Shifter.shiftStartPoint(randomScheduler.scheduleTask(h), boundary));
                 } else {
-                    addFirstToList(potentialInstances, RatioScheduler.shiftStartPoint(createInstanceWithMatrix(instance.clone()), boundary));
+                    addFirstToList(potentialInstances, Shifter.shiftStartPoint(createInstanceWithMatrix(instance.clone()), boundary));
                 }
             }
         }

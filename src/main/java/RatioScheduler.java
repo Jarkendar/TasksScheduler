@@ -33,7 +33,7 @@ public class RatioScheduler extends Scheduler {
         LinkedList<Task> result = new LinkedList<>(betterEarlier);
         result.addAll(result.size(), betterLater);
         Instance resultInstance = new Instance(result.toArray(new Task[0])).expand();
-        return canSwapNeighbourTask(shiftStartPoint(resultInstance, boundary), boundary);
+        return canSwapNeighbourTask(Shifter.shiftStartPoint(resultInstance, boundary), boundary);
     }
 
     private void sortOfRatio(Task[] tasks, int border) {
@@ -55,20 +55,5 @@ public class RatioScheduler extends Scheduler {
             }
         }
         return instance;
-    }
-
-    public static Instance shiftStartPoint(Instance instance, int boundary) {
-        int bestStartPoint = 0;
-        int currentResult = instance.calcCost(boundary);
-        instance.setStartPoint(bestStartPoint + 1);
-        instance.expand();
-        while (instance.calcCost(boundary) < currentResult) {
-            bestStartPoint = instance.getStartPoint();
-            currentResult = instance.calcCost(boundary);
-            instance.setStartPoint(bestStartPoint + 1);
-            instance.expand();
-        }
-        instance.setStartPoint(bestStartPoint);
-        return instance.expand();
     }
 }
