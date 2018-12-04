@@ -14,12 +14,12 @@ public class MutatorScheduler extends Scheduler{
         Instance workInstance = getOriginInstance().clone();
         Random random = new Random();
         for (int i = 0; i< numberOfMutation; ++i){
-            int x = random.nextInt(workInstance.getSizeInstance());
-            int y = random.nextInt(workInstance.getSizeInstance());
-            while (x == y){
-                y = random.nextInt(workInstance.getSizeInstance());
+            int index1 = random.nextInt(workInstance.getSizeInstance());
+            int index2 = random.nextInt(workInstance.getSizeInstance());
+            while (index1 == index2){
+                index2 = random.nextInt(workInstance.getSizeInstance());
             }
-            workInstance.swapTasks(x,y);
+            workInstance.swapTasks(index1,index2);
         }
         return workInstance.expand();
     }
