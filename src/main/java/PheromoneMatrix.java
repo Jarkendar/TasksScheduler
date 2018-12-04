@@ -1,6 +1,6 @@
 public class PheromoneMatrix {
     public final static double EVAPORATE_MULTIPLIER_CONTAINS = 0.9;
-    public final static double PHEROMONE_ADDITION = 1.0;
+    public final static double PHEROMONE_ADDITION = 5.0;
 
     private double[][] matrix; //[] row|from , [] column|to
 
