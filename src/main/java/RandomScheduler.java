@@ -13,6 +13,6 @@ public class RandomScheduler extends Scheduler {
         Instance workInstance = getOriginInstance().clone();
         LinkedList<Task> workTask = new LinkedList<>(Arrays.asList(workInstance.getTasks()));
         Collections.shuffle(workTask);
-        return new Instance(workTask.toArray(new Task[0]));
+        return new Instance(workTask.toArray(new Task[0])).expand();
     }
 }
