@@ -138,7 +138,7 @@ public class Instance {
     }
 
     public void setStartPoint(int startPoint) {
-        this.startPoint = startPoint;
+        this.startPoint = startPoint < 0 ? 0 : startPoint;
         costIsCorrect = false;
     }
 
