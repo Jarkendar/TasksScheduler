@@ -11,7 +11,7 @@ public class AntScheduler extends Scheduler {
     private final static int BEST_INSTANCES = 10;
     private final static int MAX_TRIES = 1;
     private final static int MUTANTS_PER_ITERATIONS_PER_THREAD = 100;
-    private final static int NUMBER_OF_MUTATION = 30;
+    private static int NUMBER_OF_MUTATION;
     public final static int MAX_THREAD = Runtime.getRuntime().availableProcessors();
 
     private long timeForCalculations;
@@ -24,6 +24,11 @@ public class AntScheduler extends Scheduler {
         this.timeForCalculations = timeForCalculations;
         pheromoneMatrix = new PheromoneMatrix(originInstance.getSizeInstance());
         this.seedInstance = seedInstance;
+        NUMBER_OF_MUTATION = (int)(originInstance.getSizeInstance() * 0.03);
+        if (NUMBER_OF_MUTATION == 0){
+            NUMBER_OF_MUTATION = 1;
+        }
+        System.out.println(NUMBER_OF_MUTATION);
     }
 
     @Override
@@ -32,7 +37,6 @@ public class AntScheduler extends Scheduler {
         int BOUNDARY = (int) (workInstance.getDurationSum() * h);
         long actualTime = System.currentTimeMillis();
         LinkedList<Instance> potentialInstances = new LinkedList<>();
-//        potentialInstances.add(seedInstance);
         int epoc = 1;
         Thread[] threads = new Thread[MAX_THREAD];
         Random random = new Random();
