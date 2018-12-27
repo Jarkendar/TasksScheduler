@@ -40,9 +40,9 @@ public class FileManager {
         }
         Instance instance = null;
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            double h = Integer.parseInt(bufferedReader.readLine())/10.0;
-            int potentialCost = Integer.parseInt(bufferedReader.readLine());
-            int instanceNumber = Integer.parseInt(bufferedReader.readLine());
+            bufferedReader.readLine();
+            bufferedReader.readLine();
+            bufferedReader.readLine();
             int startPoint = Integer.parseInt(bufferedReader.readLine());
             int taskInInstance = Integer.parseInt(filename.split("_")[0].split("h")[1]);
             instance = new Instance(taskInInstance);
