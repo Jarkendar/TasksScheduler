@@ -13,11 +13,13 @@ public class AntScheduler extends Scheduler {
     private final static int MUTANTS_PER_ITERATIONS_PER_THREAD = 200;
     private static int NUMBER_OF_MUTATION;
     public final static int MAX_THREAD = Runtime.getRuntime().availableProcessors();
+    private final static int LIMIT_EPOCH_WITHOUT_IMPROVEMENT = 50;
 
     private long timeForCalculations;
     private double chanceUsePheromones = 0.05;
     private PheromoneMatrix pheromoneMatrix;
     private Instance seedInstance;
+    private LinkedList<Integer> historyBest;
 
     public AntScheduler(Instance originInstance, long timeForCalculations, Instance seedInstance) {
         super(originInstance);
@@ -28,7 +30,7 @@ public class AntScheduler extends Scheduler {
         if (NUMBER_OF_MUTATION == 0){
             NUMBER_OF_MUTATION = 1;
         }
-//        System.out.println(NUMBER_OF_MUTATION);
+        historyBest = new LinkedList<>();
     }
 
     @Override
@@ -83,8 +85,9 @@ public class AntScheduler extends Scheduler {
 //MANAGE VARIABLES
             pheromoneMatrix.evaporatesPheromone();
             increasePheromoneChance();
+            addResultToHistory(winners.getFirst().calcCost(BOUNDARY));
             potentialInstances = winners;
-        } while (timeForCalculations > (System.currentTimeMillis() - actualTime));
+        } while (timeForCalculations > (System.currentTimeMillis() - actualTime) && isHistoryImprovement());
 //SHIFT
         LinkedList<Instance> winners = reduceInstancesInTournament(potentialInstances, BOUNDARY, 1);
         winners.sort(Comparator.comparingInt(instance -> instance.calcCost(BOUNDARY)));
@@ -152,6 +155,28 @@ public class AntScheduler extends Scheduler {
             }
         }
         return participants;
+    }
+
+    private void addResultToHistory(int result){
+        if (historyBest.size()+1 <= LIMIT_EPOCH_WITHOUT_IMPROVEMENT){
+            historyBest.addFirst(result);
+        }else {
+            historyBest.addFirst(result);
+            historyBest.removeLast();
+        }
+    }
+
+    private boolean isHistoryImprovement(){
+        if (historyBest.size() < LIMIT_EPOCH_WITHOUT_IMPROVEMENT){
+            return true;
+        }
+        int pattern = historyBest.getFirst();
+        for (Integer number : historyBest){
+            if (number.compareTo(pattern) != 0){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void increasePheromoneChance() {
