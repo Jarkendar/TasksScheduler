@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -44,7 +43,7 @@ public class AntScheduler extends Scheduler {
         potentialInstances.add(seedInstance);
         Random random = new Random();
         do {
-            System.out.println(epoc++);
+//            System.out.println(epoc++);
 //CREATE INSTANCES
             for (int t = 0; t < MAX_THREAD; t++) {
                 threads[t] = new Thread(new InstanceGenerator(workInstance.clone(), potentialInstances, h, BOUNDARY));
@@ -77,7 +76,7 @@ public class AntScheduler extends Scheduler {
 //TOURNAMENT
                 LinkedList<Instance> winners = reduceInstancesInTournament(potentialInstances, BOUNDARY, BEST_INSTANCES);
             winners.sort(Comparator.comparingInt(instance -> instance.calcCost(BOUNDARY)));
-            System.out.println(Arrays.toString(winners.stream().mapToInt(instance -> instance.calcCost(BOUNDARY)).toArray()));
+//            System.out.println(Arrays.toString(winners.stream().mapToInt(instance -> instance.calcCost(BOUNDARY)).toArray()));
 //ADD TO MATRIX
             for (int i = 0, j = winners.size(); i < winners.size(); i++, j--) {
                 pheromoneMatrix.addPheromoneOnPath(winners.get(i).getTasks(), j);

@@ -34,11 +34,8 @@ public class FileManager {
     }
 
     public Instance readInstanceFromFile(String filename){
-        System.out.println(filename);
         File file = new File(filename);
-        System.out.println(file);
         if (!file.exists()) {
-            System.out.println(file.exists());
             return null;
         }
         Instance instance = null;
