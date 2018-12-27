@@ -8,7 +8,6 @@ public class Main {
             double h = Double.parseDouble(args[2]);
             int resultSignal = -1;
             Instance instance;
-//            Instance resultRatio = new RatioScheduler(instance).scheduleTask(h);
             long startTime = System.currentTimeMillis();
             try {
                 Process process = Runtime.getRuntime().exec("python3 main.py "+args[0]+" "+args[1]+" "+args[2]+" javaResult");
@@ -23,9 +22,10 @@ public class Main {
 
             }else {
                 instance = new FileManager().readInstanceFromFile(args[0],Integer.parseInt(args[1]));
+                instance = new RatioScheduler(instance).scheduleTask(h);
             }
 //            new FileManager().writeInstanceToFile(args[0].split("[.]")[0], Integer.parseInt(args[1]), resultRatio, h);
-            new FileManager().writeInstanceToFile(args[0].split("[.]")[0], Integer.parseInt(args[1]), new AntScheduler(instance, 60*1000-firstPartTime, instance).scheduleTask(h), h);
+            new FileManager().writeInstanceToFile(args[0].split("[.]")[0], Integer.parseInt(args[1]), new AntScheduler(instance, 59*1000-firstPartTime, instance).scheduleTask(h), h);
         }else if (args.length == 1){
             new FileManager().checkInstanceFromFile(args[0]);
         }else if (args.length == 0){
