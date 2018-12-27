@@ -13,7 +13,8 @@ public class MutatorScheduler extends Scheduler{
     public Instance scheduleTask(double h) {
         Instance workInstance = getOriginInstance().clone();
         Random random = new Random();
-        for (int i = 0; i< numberOfMutation; ++i){
+        int mutation = random.nextInt(numberOfMutation)+1;
+        for (int i = 0; i< mutation; ++i){
             int index1 = random.nextInt(workInstance.getSizeInstance());
             int index2 = random.nextInt(workInstance.getSizeInstance());
             while (index1 == index2){
