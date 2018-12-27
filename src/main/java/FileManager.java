@@ -33,6 +33,35 @@ public class FileManager {
         return instance;
     }
 
+    public Instance readInstanceFromFile(String filename){
+        System.out.println(filename);
+        File file = new File(filename);
+        System.out.println(file);
+        if (!file.exists()) {
+            System.out.println(file.exists());
+            return null;
+        }
+        Instance instance = null;
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            double h = Integer.parseInt(bufferedReader.readLine())/10.0;
+            int potentialCost = Integer.parseInt(bufferedReader.readLine());
+            int instanceNumber = Integer.parseInt(bufferedReader.readLine());
+            int startPoint = Integer.parseInt(bufferedReader.readLine());
+            int taskInInstance = Integer.parseInt(filename.split("_")[0].split("h")[1]);
+            instance = new Instance(taskInInstance);
+            for (int j = 0; j < taskInInstance; ++j) {
+                String[] taskParam = normalize(bufferedReader.readLine()).split(SEPARATOR);
+                instance.addLast(new Task(j, Integer.parseInt(taskParam[0]), Integer.parseInt(taskParam[1]), Integer.parseInt(taskParam[2])));
+            }
+            instance.setStartPoint(startPoint);
+            instance.expand();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error");
+        }
+        return instance;
+    }
+
     public void writeInstanceToFile(String filename, int numberOfInstance, Instance instance, double h) {
         File file = new File(filename + "_" + numberOfInstance + "_" + (int) (h * 10) + ".txt");
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
