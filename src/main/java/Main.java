@@ -18,6 +18,3 @@ public class Main {
         System.out.println((args.length > 0 ? args[0] : "")+ " " + (args.length > 1 ? args[1] : "")+ " " + (args.length > 2 ? args[2] : "") + " " + (System.currentTimeMillis()-start) + "ms");
     }
 }
-
-
-//ograniczenie złożoności do O(n^2)

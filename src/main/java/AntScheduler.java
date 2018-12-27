@@ -10,7 +10,7 @@ public class AntScheduler extends Scheduler {
     private final static int INSTANCES_PER_ITERATIONS = 30;
     private final static int BEST_INSTANCES = 10;
     private final static int MAX_TRIES = 1;
-    private final static int MUTANTS_PER_ITERATIONS_PER_THREAD = 100;
+    private final static int MUTANTS_PER_ITERATIONS_PER_THREAD = 200;
     private static int NUMBER_OF_MUTATION;
     public final static int MAX_THREAD = Runtime.getRuntime().availableProcessors();
 
@@ -28,7 +28,7 @@ public class AntScheduler extends Scheduler {
         if (NUMBER_OF_MUTATION == 0){
             NUMBER_OF_MUTATION = 1;
         }
-        System.out.println(NUMBER_OF_MUTATION);
+//        System.out.println(NUMBER_OF_MUTATION);
     }
 
     @Override
@@ -39,6 +39,7 @@ public class AntScheduler extends Scheduler {
         LinkedList<Instance> potentialInstances = new LinkedList<>();
         int epoc = 1;
         Thread[] threads = new Thread[MAX_THREAD];
+        potentialInstances.add(seedInstance);
         Random random = new Random();
         do {
             System.out.println(epoc++);
