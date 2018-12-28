@@ -12,7 +12,7 @@ public class AntScheduler extends Scheduler {
     private final static int MUTANTS_PER_ITERATIONS_PER_THREAD = 200;
     private static int NUMBER_OF_MUTATION;
     public final static int MAX_THREAD = Runtime.getRuntime().availableProcessors();
-    private final static int LIMIT_EPOCH_WITHOUT_IMPROVEMENT = 50;
+    private final static int LIMIT_EPOCH_WITHOUT_IMPROVEMENT = 100;
 
     private long timeForCalculations;
     private double chanceUsePheromones = 0.05;

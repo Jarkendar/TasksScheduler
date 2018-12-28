@@ -15,7 +15,7 @@ public class Main {
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
-            long firstPartTime = (System.currentTimeMillis() - startTime)/1000;
+            long firstPartTime = System.currentTimeMillis() - startTime;
             if (resultSignal == 0){
                 //read instance from file
                 instance = new FileManager().readInstanceFromFile("results/javaResult/"+args[0].split("\\.")[0]+"_"+args[1]+"_"+args[2].split("\\.")[1]+".txt");
